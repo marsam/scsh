@@ -1,0 +1,15 @@
+sudo: required
+dist: trusty
+language: c
+compiler:
+  - clang
+  - gcc
+before_install:
+  - sudo apt-get -yq update
+  - sudo apt-get -yq install scheme48
+before_script:
+  - autoreconf
+  - ./configure --prefix=/usr
+  - make
+script:
+  - make test
