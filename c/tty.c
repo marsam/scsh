@@ -13,6 +13,7 @@
 #include "config.h"
 #include <stdlib.h>
 #include <unistd.h>
+#include <pty.h>
 #include <stdio.h>	/* ctermid decl */
 #include <termios.h>
 #include <string.h>

@@ -4,15 +4,12 @@
 */
 
 #include <stdio.h>
+#include <time.h>
 #include <stdlib.h>
-#include <sys/signal.h>
 #include <signal.h>
-#include <sys/types.h>
 #include <sys/times.h>
-#include <sys/time.h>
 #include <fcntl.h>		/* for O_RDWR */
 #include <sys/stat.h>
-#include <sys/param.h> /* For gethostname() */
 #include <sys/utsname.h> /* for uname() */
 
 #include <netdb.h>
