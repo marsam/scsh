@@ -3,13 +3,29 @@ dist: trusty
 language: c
 compiler:
   - clang
-  - gcc
+  # - gcc
 before_install:
   - sudo apt-get -yq update
   - sudo apt-get -yq install scheme48
 before_script:
   - autoreconf
-  - ./configure --prefix=/usr
+  - ./configure --prefix=/usr --with-scheme48=/usr
   - make
 script:
   - make test
+before_deploy:
+  - gem install fpm
+  - mkdir -p /tmp/installdir/
+  - make install DESTDIR=/tmp/installdir
+  - fpm -s dir -t deb -n scsh -v 0.7.0 -C /tmp/installdir -p scsh_VERSION_ARCH.deb -d "scheme48 > 1.9" usr/bin usr/lib usr/share
+deploy:
+  provider: packagecloud
+  repository: scheme
+  username: marsam
+  skip_cleanup: true
+  package_glob: "*.deb"
+  dist: ubuntu/trusty
+  on:
+    branch: master
+  token:
+    secure: aVduBh93GMFDnhOb02WXDRFiEv4+9uYbgT91oyXQHqBiCB+D0QecoUkn0h/JoKtfF8iatLHkJ94IGfzwsssJRIY1Cn5sGTGzVHdh/r8jRrWexW4QXmmVC9rw02vpNsVJPANsmbUTY2227Wi2BHZ+ppb5HYt54nqS50LK8uKjLKPGhm8x4YLD5dZfYOZx/WfYLLosVPC2VHRn05f5AhuCuDxVZ3WWgHR6sITHbtvz3E9O2EmIYMNbRebNokTRq/dmUPrt7sEMkqDQVJgu2k7hYiUQKx0bBFvqJzQ0mGnRCidx1Xwel7wX+awjd+zXklrLOq9lg4m1bwCMQRz8DePAoH2gU4Mor/xgtPgKZQBVaTFSws9DSQttDINsDf8NS9aVe8smbf3VPe5ucFz6STfJv2Uwery7DDlyUDSDMctbzOQSzcj5GEwahKvws2xIW2AEHULwIBcskf/naIdHwwmj7Pc+NXyp6fJTm2Na0WaVnN3IFHbh84ad+YbhwH5Ed7xigoa2a1Bn7i756Ud3gIBQ59OlbMOzQ7Hf1s684Izb75kHruY0MDz0L+4YDDLXsFiJEO80AuIG/EbWbf5hGedG8L/vTOxpQbWtkYJtmqRjsTIHGYMbk33ZaG2yMukDu9fH+2JkUZiVvjEw6+pFuAlv2GyCKyZZOm4y05y8ibvtLkI=
