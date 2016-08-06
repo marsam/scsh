@@ -10,7 +10,8 @@ before_install:
 before_script:
   - autoreconf
   - ./configure --prefix=/usr --with-scheme48=/usr
-  - make
+  # XXX: Version available in ubuntu :/
+  - make SCHEME48VERSION=1.9
 script:
   - make test
 before_deploy:
